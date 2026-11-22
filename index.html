@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Quel iPhone pour Robert</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&display=swap">
@@ -141,13 +141,51 @@ footer a{color:var(--ink)}
 @media(max-width:760px){.result{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){.ticks .odd{display:none}.row .nm span{font-size:14px}.vt.stack td.w::after{content:' ✓'}.axis,.row,.ptrlayer{--lab:6.2em}.axis,.row{grid-template-columns:6.2em minmax(0,1fr)}.ptrlayer{left:calc(6.2em + 10px)}.row .nm{font-size:14px}.price{font-size:12px}table{font-size:13px}th,td{padding:8px 6px;font-size:14px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flex;justify-content:space-between;gap:12px;border:0;padding:3px 8px;text-align:right}.stack td::before{content:attr(data-l);color:var(--soft);text-align:left}.stack td.links{display:block;text-align:left}.stack td.links::before{display:block}}
 @media(max-width:600px){.vt.stack td:first-child{display:block;width:auto;text-align:left;padding:4px 8px 2px}.vt.stack td:first-child::before{display:none}.vt.stack td small{text-align:left}.score{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.score .card{padding:10px}.score b{font-size:22px}.score .note{font-size:13px}}
+.tabbar{display:none}
+.only{display:inline-flex;align-items:center;gap:8px;font-size:15px;min-height:44px;cursor:pointer}
+.only input{width:20px;height:20px;accent-color:var(--or)}
+@media(max-width:600px){
+body{padding-bottom:calc(66px + env(safe-area-inset-bottom,0px))}
+html{scroll-padding-top:12px}
+.tabbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--panel);border-top:1px solid var(--line);padding:4px max(4px,env(safe-area-inset-right,0px)) calc(4px + env(safe-area-inset-bottom,0px)) max(4px,env(safe-area-inset-left,0px))}
+.tabbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:54px;font-size:12px;font-weight:500;color:var(--soft);text-decoration:none;border-radius:10px}
+.tabbar svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tabbar a.on{color:var(--or)}
+.tabbar a:focus-visible{outline:3px solid var(--or);outline-offset:-3px}
+h1{font-size:30px}
+.lead{font-size:16px}
+.budgets{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:16px}
+.budgets button{padding:0;font-size:15px;min-height:46px}
+.budgets .mx{display:none}
+.shops{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.shops a{justify-content:center;white-space:nowrap;padding:0 6px;font-size:14px}
+.chips{flex-wrap:nowrap;overflow-x:auto;margin-inline:-16px;padding:2px 16px 6px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none}
+.vsbar{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px}
+.vsbar select{width:100%;font-size:16px;padding:0 8px}
+.vsbar .vs{font-size:17px}
+.vsbar #vswap{grid-column:1/-1}
+.vsbar .only{grid-column:1/-1}
+.vt.stack td.w::after{content:none}
+.vt.stack td.w::before{content:attr(data-l) ' ✓';color:var(--ink)}
+.score .card{padding:10px 8px;text-align:center}
+.score .note{display:block;line-height:1.25}
+.score b{font-size:20px}
+.result{gap:12px}
+.card{padding:16px}
+.big{font-size:28px}
+.kv{font-size:14px;gap:4px 12px}
+.opt{padding:16px}
+.pc{font-size:24px}
+}
 @media(prefers-reduced-motion:reduce){.ptr,.bar{transition:none}}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
 
-<header class="band"><div class="wrap">
+<header class="band" id="budget"><div class="wrap">
   <h1>Quel iPhone acheter selon votre budget</h1>
   <p class="lead">Choisissez un budget maximum. Le site montre le meilleur choix, ce que vous gagnez en payant plus, et si ça vous sert vraiment. Tous les prix sont pour des iPhone <b>reconditionnés</b> (d'occasion remis à neuf et garantis), en 128 Go.</p>
   <div class="budgets" role="group" aria-label="Budget maximum" id="budgets"></div>
@@ -186,6 +224,7 @@ footer a{color:var(--ink)}
     <label for="vsb" style="position:absolute;left:-9999px">Second modèle</label>
     <select id="vsb"></select>
     <button type="button" id="vswap">Inverser</button>
+    <label class="only" for="vsdiff"><input type="checkbox" id="vsdiff"> Voir seulement les différences</label>
   </div>
   <div class="score" id="vsscore"></div>
   <div class="scroll"><table class="vt stack"><thead><tr><th>Critère</th><th id="vha"></th><th id="vhb"></th></tr></thead><tbody id="vsbody"></tbody></table></div>
@@ -224,6 +263,13 @@ footer a{color:var(--ink)}
   </ul>
 </div></section>
 
+<nav class="tabbar" aria-label="Aller à une section">
+  <a href="#budget" data-s="budget"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v11H4zM4 10h16M15 14h2"/></svg>Budget</a>
+  <a href="#modeles" data-s="modeles"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>Modèles</a>
+  <a href="#vs" data-s="vs"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16M17 4v16M4 9h6M14 15h6"/></svg>Comparer</a>
+  <a href="#options" data-s="options"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19V11M12 19V5M19 19v-5"/></svg>Options</a>
+  <a href="#prix" data-s="prix"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12l9-9h8v8l-9 9z"/><circle cx="16" cy="8" r="1.5"/></svg>Prix</a>
+</nav>
 <footer class="band" style="border-top:1px solid var(--line)"><div class="wrap">
   <p><b>Comment les choix sont faits.</b> D'abord la durée des mises à jour (un iPhone sans mises à jour devient risqué et des applis cessent de marcher). Ensuite le prix réel pour ce qu'il apporte. Les années de mises à jour sont des estimations : Apple n'annonce jamais de date de fin.</p>
   <p class="note">Sources des prix : Back Market, Recommerce, Certideal, Combak, Largo, Fnac, Price Radar, Dero, Lesmobiles, Ouest-France, Apple, TechRadar, AppleInsider. Les prix bougent tous les jours : vérifiez toujours sur le site du vendeur.</p>
@@ -343,7 +389,7 @@ const eur = v => v + ' €';
 const $ = id => document.getElementById(id);
 
 $('maj').textContent = UPDATED;
-$('budgets').innerHTML = Object.keys(T).map(b=>`<button type="button" id="b${b}" data-b="${b}" aria-pressed="false">${b} € max</button>`).join('');
+$('budgets').innerHTML = Object.keys(T).map(b=>`<button type="button" id="b${b}" data-b="${b}" aria-pressed="false">${b} €<span class="mx"> max</span></button>`).join('');
 $('feat').innerHTML = F.map((f,i)=>`<li class="opt">
   <div class="oh"><span class="rk">${i+1}</span><h3>${f.t}</h3><span class="pc">${f.pct} %<small>utile</small></span></div>
   <div class="split" role="img" aria-label="${f.pct} % utile, ${100-f.pct} % inutile"><i class="y" style="width:${f.pct}%"></i><i class="n0" style="width:${100-f.pct}%"></i></div>
@@ -393,6 +439,7 @@ function vs(){
     const x=val(A,S[a]), y=val(B,S[b]);
     const r = x===y ? 0 : ((x>y)===(dir>0) ? 1 : -1);
     if(r===1) wa.push(lab); else if(r===-1) wb.push(lab); else eq++;
+    if(r===0 && $('vsdiff').checked) return '';
     return `<tr><td><b>${lab}</b><small>${hint}</small></td><td class="${r===1?'w':''}">${show(A,S[a])}</td><td class="${r===-1?'w':''}">${show(B,S[b])}</td></tr>`;
   }).join('');
   $('vsscore').innerHTML = `<div class="card"><span class="note">${A.name} gagne sur</span><b>${wa.length} point${wa.length>1?'s':''}</b></div><div class="card"><span class="note">${B.name} gagne sur</span><b>${wb.length} point${wb.length>1?'s':''}</b></div><div class="card"><span class="note">Égalité sur</span><b>${eq} point${eq>1?'s':''}</b></div>`;
@@ -444,6 +491,8 @@ $('vsa').innerHTML=opts; $('vsb').innerHTML=opts;
 let pair=['13','15'];
 try{const v=(localStorage.getItem('vs')||'').split(',');if(M[v[0]]&&M[v[1]])pair=v}catch(e){}
 $('vsa').value=pair[0]; $('vsb').value=pair[1];
+try{$('vsdiff').checked=matchMedia('(max-width:600px)').matches}catch(e){}
+$('vsdiff').addEventListener('change',vs);
 $('vsa').addEventListener('change',vs); $('vsb').addEventListener('change',vs);
 $('vswap').addEventListener('click',()=>{const t=$('vsa').value;$('vsa').value=$('vsb').value;$('vsb').value=t;vs()});
 $('mchips').addEventListener('click',e=>{const x=e.target.closest('button');if(x)fiche(x.dataset.m)});
@@ -452,6 +501,10 @@ $('fiche').addEventListener('click',e=>{const x=e.target.closest('.vsgo');if(!x)
 fiche('13'); vs();
 $('budgets').addEventListener('click',e=>{const x=e.target.closest('button');if(!x)return;location.hash='budget-'+x.dataset.b;render(x.dataset.b)});
 window.addEventListener('hashchange',()=>{const m=location.hash.match(/budget-(\d+)/);if(m)render(m[1])});
+{const tabs=[...document.querySelectorAll('.tabbar a')];
+ const io=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting)tabs.forEach(t=>t.classList.toggle('on',t.dataset.s===e.target.id))},{rootMargin:'-45% 0px -50% 0px'});
+ ['budget','modeles','vs','options','prix','avant'].forEach(id=>{const el=$(id);if(el)io.observe(el)});
+ tabs.forEach(t=>t.addEventListener('click',e=>{e.preventDefault();$(t.dataset.s).scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})}));}
 let start=300;
 const h=location.hash.match(/budget-(\d+)/);
 if(h)start=h[1];else{try{start=localStorage.getItem('budget')||300}catch(e){}}
