@@ -66,9 +66,20 @@ li{margin-bottom:6px}
 .shops a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:10px;border:1.5px solid var(--line);color:var(--ink);text-decoration:none;font-weight:500;font-size:15px}
 .shops a:hover{border-color:var(--ink)}
 .shops a:focus-visible{outline:3px solid var(--or);outline-offset:2px}
-.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:14px}
-.feat .card p{font-size:15px;margin-bottom:6px}
-.feat .who{font-size:13px;color:var(--soft);margin:0 0 8px}
+.feat{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.opt{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:0}
+.oh{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;margin-bottom:10px}
+.oh h3{margin:0}
+.rk{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--bg);font-weight:700;font-size:15px}
+.pc{font-size:28px;font-weight:700;line-height:1;text-align:right;white-space:nowrap}
+.pc small{display:block;font-size:13px;font-weight:400;color:var(--soft)}
+.split{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--line);margin-bottom:12px}
+.split i{display:block;height:100%}
+.split .y{background:var(--ok)}
+.split .n0{background:var(--no);opacity:.55}
+.why{font-size:15px;margin-bottom:8px}
+.yn p{font-size:15px;margin:0 0 4px}
+@media(max-width:760px){.feat{grid-template-columns:minmax(0,1fr)}}
 .scroll{overflow-x:auto}
 table{border-collapse:collapse;width:100%;background:var(--panel);border-radius:14px;overflow:hidden}
 th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top;font-size:15px}
@@ -163,9 +174,10 @@ footer a{color:var(--ink)}
 </div></section>
 
 <section class="band" id="options"><div class="wrap">
-  <h2>Les options qui coûtent plus cher : utiles pour vous ?</h2>
-  <p class="lead">Un iPhone plus cher, c'est souvent une ou deux améliorations précises. Si vous ne les utilisez pas, vous payez pour rien.</p>
-  <div class="feat" id="feat"></div>
+  <h2>Les options classées, de la plus utile à la moins utile</h2>
+  <p class="lead">Un iPhone plus cher, c'est souvent une ou deux améliorations précises. Si vous ne les utilisez pas, vous payez pour rien. Le pourcentage indique la part des acheteurs à qui l'option sert vraiment : c'est une estimation, basée sur les usages courants.</p>
+  <div class="legend" style="margin-bottom:14px"><span><i style="background:var(--ok)"></i>Utile</span><span><i style="background:var(--no);opacity:.55"></i>Inutile</span></div>
+  <ol class="feat" id="feat"></ol>
 </div></section>
 
 <section class="band dark" id="prix"><div class="wrap">
@@ -288,17 +300,20 @@ const T = {
     altText:'<b>iPhone 15 Pro</b> au même prix si le zoom x3 et l\'écran fluide comptent plus pour vous que l\'autonomie. <b>Neuf</b>, le moins cher (iPhone 17e) coûte 782 à 869 € : hors budget.',
     gain:{from:'iPhone 15', items:[['Un an de mises à jour en plus','utile si vous gardez longtemps.'],['Meilleure autonomie','utile si vous êtes souvent loin d\'une prise.'],['Apple Intelligence','utile seulement si vous vous en servez.']], verdict:'Bien si vous voulez le garder 6 ans. Sinon, l\'iPhone 15 à 420 € suffit largement.'}}
 };
+/* Options classées de la plus utile à la moins utile. pct = part estimée des acheteurs à qui l'option sert vraiment. */
 const F = [
-  ['Durée des mises à jour','Le critère n°1, pour tout le monde. Sans mises à jour, le téléphone devient vulnérable et certaines applis (banque, WhatsApp) finissent par ne plus marcher.','Utile pour tous','Plus le modèle est récent, plus il durera.'],
-  ['Batterie neuve','Une batterie usée, c\'est un téléphone qui tient une demi-journée. Souvent proposée pour 20 à 40 € de plus.','Utile pour tous','Le meilleur supplément à payer sur un reconditionné.'],
-  ['Stockage 256 Go au lieu de 128 Go','Plus de place pour photos, vidéos et applis.','Utile si vous filmez beaucoup ou n\'utilisez pas la sauvegarde iCloud','Inutile pour un usage normal : 128 Go suffisent à la plupart des gens.'],
-  ['Appareil photo 48 Mpx (iPhone 15 et plus)','Plus de détails quand on recadre ou imprime une photo.','Utile si la photo est un loisir','Inutile si vos photos finissent sur WhatsApp : la différence ne se voit pas sur un écran de téléphone.'],
-  ['Zoom optique x3 (modèles Pro)','Photographier net de loin.','Utile pour le sport des enfants, les spectacles, les animaux','Inutile si vous photographiez surtout des gens à côté de vous.'],
-  ['Écran 120 Hz (modèles Pro)','Défilement plus fluide.','Agréable si vous jouez ou lisez beaucoup sur le téléphone','Inutile pour beaucoup de gens : on s\'y habitue sans le remarquer.'],
-  ['Prise USB-C (iPhone 15 et plus)','Le même câble que les ordinateurs, tablettes et téléphones Android.','Utile si vous avez déjà des câbles USB-C','Inutile si vous avez plein de câbles iPhone (Lightning) à la maison.'],
-  ['Apple Intelligence (15 Pro, 16 et plus)','Siri amélioré, aide pour écrire, résumés de messages.','Utile si vous parlez souvent à votre téléphone','Inutile si vous n\'utilisez jamais Siri.'],
-  ['SOS par satellite (iPhone 14 et plus)','Appeler les secours sans réseau.','Utile en randonnée, montagne, zones sans réseau','Inutile en ville.'],
-  ['État « parfait » au lieu de « correct »','Moins de micro-rayures sur la coque.','Utile si vous ne mettez pas de coque','Inutile avec une coque : on ne voit rien, et ça coûte 20 à 40 € de plus.']
+  {t:'Durée des mises à jour', pct:100, why:'Sans mises à jour, le téléphone devient vulnérable aux piratages, et des applis indispensables (banque, WhatsApp, impôts) finissent par refuser de fonctionner. Tout le monde est concerné.', oui:'plus le modèle est récent, plus il durera', non:''},
+  {t:'Batterie en bon état (85 % ou plus, ou neuve)', pct:100, why:'Une batterie usée transforme n\'importe quel iPhone en téléphone qui tient une demi-journée. Une batterie neuve coûte souvent 20 à 40 € de plus : c\'est le supplément le plus rentable.', oui:'une batterie fatiguée gâche n\'importe quel iPhone, même récent', non:''},
+  {t:'Meilleure autonomie (modèle plus récent)', pct:85, why:'Passer de 17 h à 20 h de vidéo (chiffres Apple), c\'est finir la journée sans chercher une prise.', oui:'vous utilisez le téléphone dans la journée : GPS, vidéos, réseaux sociaux, appels longs', non:'vous l\'utilisez peu et il charge chaque nuit'},
+  {t:'Prise USB-C (iPhone 15 et plus)', pct:55, why:'Un seul câble pour le téléphone, l\'ordinateur, la tablette et la plupart des appareils récents.', oui:'vous avez déjà des câbles USB-C ou un téléphone Android à la maison', non:'toute la maison est équipée en câbles iPhone (Lightning)'},
+  {t:'Appareil photo 48 Mpx (iPhone 15 et plus)', pct:40, why:'Plus de détails quand on recadre ou imprime une photo, et un zoom x2 net.', oui:'vous imprimez vos photos, vous recadrez souvent, la photo est un loisir', non:'vos photos finissent sur WhatsApp ou Facebook : sur un écran de téléphone, la différence ne se voit pas'},
+  {t:'Écran plus lumineux (iPhone 15 et plus)', pct:35, why:'Écran plus lisible en plein soleil.', oui:'vous utilisez souvent le téléphone dehors (GPS à vélo, chantier, terrasse)', non:'vous l\'utilisez surtout à l\'intérieur'},
+  {t:'Stockage 256 Go au lieu de 128 Go', pct:25, why:'128 Go suffisent pour des milliers de photos. 256 Go ne servent que si on stocke beaucoup de vidéos.', oui:'vous filmez beaucoup et n\'utilisez pas la sauvegarde iCloud', non:'usage normal, ou photos sauvegardées sur iCloud / Google Photos'},
+  {t:'Zoom optique x3 (modèles Pro)', pct:25, why:'Photographier net quelque chose de loin, sans s\'approcher.', oui:'sport des enfants, spectacles, animaux, voyages', non:'vous photographiez surtout des gens à côté de vous'},
+  {t:'Écran 120 Hz (modèles Pro)', pct:20, why:'Le défilement est plus fluide. Agréable, mais beaucoup de gens ne voient pas la différence.', oui:'vous jouez ou lisez beaucoup sur le téléphone', non:'appels, messages, photos, réseaux sociaux'},
+  {t:'Apple Intelligence (15 Pro, 16 et plus)', pct:20, why:'Siri amélioré, aide pour écrire, résumés de messages.', oui:'vous parlez souvent à Siri ou voulez de l\'aide pour rédiger', non:'vous n\'utilisez jamais Siri'},
+  {t:'SOS par satellite (iPhone 14 et plus)', pct:15, why:'Appeler les secours là où il n\'y a aucun réseau.', oui:'randonnée, montagne, zones blanches', non:'vous restez en ville ou dans des zones couvertes'},
+  {t:'État « parfait » au lieu de « correct »', pct:10, why:'Moins de micro-rayures sur le boîtier, pour 20 à 40 € de plus. Avec une coque, on ne voit rien.', oui:'vous ne mettez jamais de coque', non:'vous mettez une coque (la plupart des gens)'}
 ];
 const q = n => encodeURIComponent(n + ' 128 go reconditionné');
 const shops = n => [
@@ -313,7 +328,12 @@ const $ = id => document.getElementById(id);
 
 $('maj').textContent = UPDATED;
 $('budgets').innerHTML = Object.keys(T).map(b=>`<button type="button" id="b${b}" data-b="${b}" aria-pressed="false">${b} € max</button>`).join('');
-$('feat').innerHTML = F.map(([t,d,u,n])=>`<div class="card"><h3>${t}</h3><p>${d}</p><p><span class="u">Oui :</span> ${u}.</p><p><span class="n">Non :</span> ${n}</p></div>`).join('');
+$('feat').innerHTML = F.map((f,i)=>`<li class="opt">
+  <div class="oh"><span class="rk">${i+1}</span><h3>${f.t}</h3><span class="pc">${f.pct} %<small>utile</small></span></div>
+  <div class="split" role="img" aria-label="${f.pct} % utile, ${100-f.pct} % inutile"><i class="y" style="width:${f.pct}%"></i><i class="n0" style="width:${100-f.pct}%"></i></div>
+  <p class="why">${f.why}</p>
+  <div class="yn"><p><span class="u">${f.pct} % utile</span>${f.pct===100?' pour tout le monde :':' si'} ${f.oui}.</p>${f.pct<100?`<p><span class="n">${100-f.pct} % inutile</span> si ${f.non}.</p>`:''}</div>
+</li>`).join('');
 $('tbl').innerHTML = ORDER.map(id=>{const m=M[id];return `<tr><td><b>${m.name}</b>${m.avoid?' <span class="n">(à éviter)</span>':''}<br><span class="note">sorti en ${m.year}, mises à jour ${m.maj}</span></td><td class="num">${m.min} – ${eur(m.max)}</td><td class="num">${eur(m.deal)}</td><td class="links"><div class="shops">${shops(m.name)}</div></td></tr>`}).join('');
 
 function fiche(id){
