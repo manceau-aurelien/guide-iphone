@@ -92,6 +92,25 @@ td a{color:var(--ink)}
 .dark{background:var(--ink);color:var(--bg)}
 .dark .note{color:color-mix(in srgb,var(--bg) 70%,var(--ink))}
 .dark a{color:var(--bg)}
+.tags{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,255px),1fr));gap:14px}
+.ptag{position:relative;background:color-mix(in srgb,var(--bg) 9%,var(--ink));border:1px solid color-mix(in srgb,var(--bg) 18%,var(--ink));border-radius:16px;padding:20px 20px 18px;display:flex;flex-direction:column;gap:12px}
+.ptag.av{border-style:dashed;border-color:color-mix(in srgb,var(--no) 70%,var(--ink))}
+.ptag .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.ptag h3{margin:0;font-size:20px}
+.ptag .yr{font-size:13px;color:color-mix(in srgb,var(--bg) 65%,var(--ink))}
+.ptag .rng{font-size:clamp(24px,2.4vw,30px);font-weight:700;line-height:1;letter-spacing:-.02em;white-space:nowrap}
+.ptag .rng small{font-size:14px;font-weight:400;color:color-mix(in srgb,var(--bg) 65%,var(--ink));letter-spacing:0;margin-left:6px}
+.ptag .deal{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;background:var(--or);color:#fff;font-weight:700;font-size:14px;border-radius:8px;padding:5px 10px}
+.ptag.av .deal{background:transparent;color:var(--no);border:1.5px solid var(--no)}
+.ptag .meta{font-size:14px;color:color-mix(in srgb,var(--bg) 70%,var(--ink));margin:0}
+.ptag .go{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:auto;padding-top:4px}
+.ptag .go a{display:inline-flex;align-items:center;justify-content:center;text-align:center;white-space:nowrap;min-height:44px;padding:0 6px;border-radius:10px;font-size:14px;font-weight:500;text-decoration:none;color:var(--bg);border:1.5px solid color-mix(in srgb,var(--bg) 30%,var(--ink));background:transparent}
+.ptag .go a:first-child{background:var(--bg);color:var(--ink);border-color:var(--bg);font-weight:700}
+.ptag .go a:hover{border-color:var(--bg)}
+.ptag.tip{background:transparent;border-style:dashed}
+.ptag.tip ol{margin:0;padding-left:1.2em;font-size:15px}
+.ptag.tip li{margin-bottom:8px}
+.ptag .go a:focus-visible{outline:3px solid var(--or);outline-offset:2px}
 footer{font-size:14px}
 footer a{color:var(--ink)}
 .row .nm{font:inherit;text-align:left;background:none;border:0;padding:4px 0;color:var(--ink);cursor:pointer;min-height:44px}
@@ -184,10 +203,7 @@ footer a{color:var(--ink)}
   <h2>Surveiller les prix en direct</h2>
   <p>Les boutons ouvrent la recherche du modèle sur chaque site, avec les prix du moment. Comparez toujours le <b>prix final</b>, l'<b>état</b>, la <b>batterie</b> et la <b>garantie</b>.</p>
   <p class="note">Les fourchettes ci-dessous sont mes relevés, mis à jour chaque jour jusqu'à début décembre. Elles servent de repère : un prix nettement en dessous est une bonne affaire.</p>
-  <div class="scroll"><table class="stack" style="color:var(--ink)">
-    <thead><tr><th>Modèle (128 Go)</th><th>Prix relevé</th><th>Bonne affaire si moins de</th><th>Voir les offres</th></tr></thead>
-    <tbody id="tbl"></tbody>
-  </table></div>
+  <ul class="tags" id="tbl"></ul>
 </div></section>
 
 <section class="band" id="avant"><div class="wrap">
@@ -320,7 +336,7 @@ const shops = n => [
   ['Back Market','https://www.backmarket.fr/fr-fr/search?q='+encodeURIComponent(n+' 128 go')],
   ['Fnac','https://www.fnac.com/SearchResult/ResultList.aspx?Search='+q(n)],
   ['Amazon','https://www.amazon.fr/s?k='+q(n)],
-  ['Comparer (Google Shopping)','https://www.google.com/search?tbm=shop&q='+q(n)]
+  ['Comparer','https://www.google.com/search?tbm=shop&q='+q(n)]
 ].map(([l,u])=>`<a href="${u}" rel="noopener noreferrer">${l}</a>`).join('');
 const pct = v => ((Math.min(Math.max(v,LO),HI)-LO)/(HI-LO)*100);
 const eur = v => v + ' €';
@@ -334,7 +350,7 @@ $('feat').innerHTML = F.map((f,i)=>`<li class="opt">
   <p class="why">${f.why}</p>
   <div class="yn"><p><span class="u">${f.pct} % utile</span>${f.pct===100?' pour tout le monde :':' si'} ${f.oui}.</p>${f.pct<100?`<p><span class="n">${100-f.pct} % inutile</span> si ${f.non}.</p>`:''}</div>
 </li>`).join('');
-$('tbl').innerHTML = ORDER.map(id=>{const m=M[id];return `<tr><td><b>${m.name}</b>${m.avoid?' <span class="n">(à éviter)</span>':''}<br><span class="note">sorti en ${m.year}, mises à jour ${m.maj}</span></td><td class="num">${m.min} – ${eur(m.max)}</td><td class="num">${eur(m.deal)}</td><td class="links"><div class="shops">${shops(m.name)}</div></td></tr>`}).join('');
+$('tbl').innerHTML = ORDER.map(id=>{const m=M[id];return `<li class="ptag ${m.avoid?'av':''}"><div class="top"><h3>${m.name}</h3><span class="yr">sorti en ${m.year}</span></div><div class="rng">${m.min} – ${eur(m.max)}<small>128 Go</small></div><span class="deal">${m.avoid?'À éviter':'Bonne affaire sous '+eur(m.deal)}</span><p class="meta">Mises à jour jusqu'en ${m.maj.replace('≈ ','')} environ</p><div class="go">${shops(m.name)}</div></li>`;}).join('') + `<li class="ptag tip"><h3>Repérer une vraie bonne affaire</h3><ol><li>Comparez le prix <b>final</b>, livraison comprise.</li><li>Vérifiez la <b>batterie</b> : 85 % ou plus, ou neuve.</li><li>Garantie d'<b>au moins 12 mois</b>.</li><li>Un « prix barré » ne prouve rien : comparez avec les fourchettes ci-contre.</li></ol></li>`;
 
 function fiche(id){
   if(!M[id]) id='13';
