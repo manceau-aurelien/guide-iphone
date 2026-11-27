@@ -189,7 +189,7 @@ h1{font-size:30px}
   <h1>Quel iPhone acheter selon votre budget</h1>
   <p class="lead">Choisissez un budget maximum. Le site montre le meilleur choix, ce que vous gagnez en payant plus, et si ça vous sert vraiment. Tous les prix sont pour des iPhone <b>reconditionnés</b> (d'occasion remis à neuf et garantis), en 128 Go.</p>
   <div class="budgets" role="group" aria-label="Budget maximum" id="budgets"></div>
-  <p class="hint">Prix relevés le <b id="maj"></b>. Black Friday : vendredi 27 novembre 2026. Chez Back Market, le code <b>BF5</b> retire 5 % de plus sur certains modèles jusqu'au 30 novembre.</p>
+  <p class="hint">Prix relevés le <b id="maj"></b>. Black Friday : vendredi 27 novembre 2026. Chez Back Market, le code <b>BF5</b> retire 5 % de plus sur les iPhone 13, 15 et 16 jusqu'au 30 novembre, pour les 5 300 premières commandes : il peut déjà être épuisé.</p>
 
   <div class="rail">
     <div class="railbox" id="railbox">
@@ -277,7 +277,7 @@ h1{font-size:30px}
 
 <script>
 {
-const UPDATED = '26 novembre 2026';
+const UPDATED = '27 novembre 2026';
 const LO = 150, HI = 650;
 const M = {
   '11':  {name:'iPhone 11', year:2019, min:210, max:240, maj:'2026–2027', deal:200, avoid:true},
@@ -285,7 +285,7 @@ const M = {
   '13':  {name:'iPhone 13', year:2021, min:221, max:286, maj:'≈ 2028–2029', deal:240},
   '14':  {name:'iPhone 14', year:2022, min:273, max:339, maj:'≈ 2029', deal:285},
   '15':  {name:'iPhone 15', year:2023, min:385, max:469, maj:'≈ 2030', deal:390},
-  '15p': {name:'iPhone 15 Pro', year:2023, min:555, max:640, maj:'≈ 2030', deal:540},
+  '15p': {name:'iPhone 15 Pro', year:2023, min:516, max:640, maj:'≈ 2030', deal:540},
   '16':  {name:'iPhone 16', year:2024, min:600, max:690, maj:'≈ 2031', deal:590}
 };
 const ORDER = ['11','12','13','14','15','15p','16'];
@@ -355,7 +355,7 @@ const T = {
     gain:{from:'iPhone 13', items:[['USB-C','utile si vous avez déjà des chargeurs USB-C ; inutile si toute la maison est en câbles iPhone.'],['Photo 48 Mpx et zoom x2','utile si vous imprimez ou recadrez vos photos ; inutile pour WhatsApp et Facebook.'],['Mises à jour jusqu\'en 2030 environ','utile si vous gardez votre téléphone 5 ans ou plus.']], verdict:'Payez la différence seulement si au moins un point vous sert.'}},
   500: {best:'15', alt:'15p',
     why:['Au-dessus de 400 €, aucun modèle n\'apporte un vrai plus pour un usage normal.','Utilisez la marge pour un iPhone 15 en <b>256 Go</b> (environ 475 à 525 €) ou avec une <b>batterie neuve</b>.','Mises à jour jusqu\'en 2030 environ, USB-C, photo 48 Mpx.'],
-    altText:'<b>iPhone 15 Pro</b>, seulement s\'il descend vers 500-520 € au Black Friday. Il coûte en ce moment 555 à 640 €.',
+    altText:'<b>iPhone 15 Pro</b>, seulement s\'il descend vers 500-520 € au Black Friday. Il coûte en ce moment 516 à 640 €.',
     gain:{title:'Ce que le 15 Pro ajoute, et si ça vous sert', items:[['Zoom x3','utile si vous photographiez souvent de loin (sport des enfants, spectacles) ; inutile sinon.'],['Écran 120 Hz','agréable, mais beaucoup de gens ne voient pas la différence.'],['Apple Intelligence','utile si vous parlez à Siri ou voulez de l\'aide pour écrire ; inutile si vous n\'utilisez jamais ces fonctions.']], verdict:'C\'est un achat « plaisir ». Rien ne sert de payer 100 € de plus si vous ne zoomez pas.'}},
   600: {best:'16', alt:'15p',
     why:['Le plus récent dans ce budget : mises à jour jusqu\'en 2031 environ.','Meilleure autonomie que l\'iPhone 15 et le 15 Pro.','Apple Intelligence, bouton Action et bouton dédié à l\'appareil photo.'],
